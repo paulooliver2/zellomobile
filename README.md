@@ -1,15 +1,14 @@
 # zellomobile
 
-##Install lib ionic
-
+## Install lib ionic
 ```
 npm install -g @ionic\cli
-```
 
+```
 ## Clone repository
 ```
 npm install
-``
+```
 
 ## Starter serve
 ```
