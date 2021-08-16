@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Aplicativos
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tab 2</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Gerenciador de Aplicativos</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <form id="formApps" [formGroup]="form" (ngSubmit)="save()">
+        <ion-input type="hidden" formControlName="id"></ion-input>
+        <ion-item>
+          <ion-label position="floating">Nome</ion-label>
+          <ion-input formControlName="name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Bundle</ion-label>
+          <ion-input formControlName="bundle_id"></ion-input>
+        </ion-item>
+        <ion-button type="submit" size="full" color="primary">Salvar</ion-button>
+      </form>
+      <hr>
+      <h2>Lista de apps</h2>
+      <ion-grid>
+        <ion-row *ngFor="let app of apps">
+          <ion-col>
+            {{app.name}}
+          </ion-col>
+          <ion-col>
+            {{app.bundle_id}}
+          </ion-col>
+          <ion-col>
+            <ion-button color="warning" (click)="get(app)">Editar</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button color="danger" (click)="delete(app)">Excluir</ion-button>
+          </ion-col>
+        </ion-row>
+        </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
