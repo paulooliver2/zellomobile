@@ -1,11 +1,14 @@
 # zellomobile
 
-## Install lib ionic
+## Dependencies
 ```
-npm install -g @ionic\cli
+paulooliver2/zello (api)
+nodejs
+npm
+@ionic\cli
 
 ```
-## Clone repository
+## Install libs
 ```
 npm install
 ```
