@@ -1,17 +1,50 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      Gerenciador de Vinculos
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-card-content>
+  <form id="formPersonApps" [formGroup]="form" (ngSubmit)="save()">
+      <ion-list>        
+        <ion-item>
+          <ion-label>Pessoas</ion-label>
+          <ion-select [compareWith]="compareWith" formControlName="person_id">
+            <ion-select-option *ngFor="let person of persons" [value]="person.id">
+              {{person.name}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <ion-list>        
+        <ion-item>
+          <ion-label>Aplicativos</ion-label>
+          <ion-select [compareWith]="compareWith" formControlName="apps_id">
+            <ion-select-option *ngFor="let app of apps" [value]="app.id">
+              {{app.name}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    <ion-button type="submit" size="full" color="primary">Vincular</ion-button>
+  </form>
+    <hr>
+    <h2>Lista de Vinculados</h2>
+    <ion-grid>
+      <ion-row *ngFor="let personApp of personApps">
+        <ion-col>
+          {{personApp.person_name}}
+        </ion-col>
+        <ion-col>
+          {{personApp.apps_name}}
+        </ion-col>
+        <ion-col>
+          <ion-button color="danger" (click)="delete(personApp)">Excluir</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+</ion-card-content>
 </ion-content>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from  '@angular/common/http';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -20,7 +21,10 @@ export class Tab2Page {
     headers: this.httpHeaders
   };      
 
-  constructor(private formBuilder: FormBuilder, private rest: HttpClient) {
+  constructor(
+    private formBuilder: FormBuilder, 
+    private rest: HttpClient,
+    public alertController: AlertController) {{
 
     this.form = this.formBuilder.group({
       'id': [null],
@@ -29,6 +33,7 @@ export class Tab2Page {
 		});
     this.listAll();
   }
+}
 
   save() {
     let params = this.form.getRawValue();
@@ -44,10 +49,12 @@ export class Tab2Page {
     this.rest.post(this.baseUrl + '/apps/', params, this.options)
     .subscribe(
       resultado => { 
+        this.showAlert('Cadastrada com sucesso');
         this.listAll();
-        console.log(resultado);
+        this.resetForm();
       },
       erro => {
+        this.showAlert('Falha no cadastro');
         console.log(erro);
       }
     );
@@ -57,12 +64,12 @@ export class Tab2Page {
     this.rest.put(this.baseUrl + '/apps/'+ params.id, params, this.options)
     .subscribe(
       resultado => { 
+        this.showAlert('Alterada com sucesso');
         this.listAll();
-        this.form.get('id').setValue(null);
-        this.form.get('name').setValue(null);
-        this.form.get('bundle_id').setValue(null);
-      },
+        this.resetForm();
+    },
       erro => {
+        this.showAlert('Falha na alteração');
         console.log(erro);
       }
     );
@@ -94,9 +101,67 @@ export class Tab2Page {
     
     )
   }
-
-  delete(app: any) {
-    console.log(app);
+  delete(apps: any) {
+    this.showPrompt('Deseja excluir?', () => {
+      this.rest.delete(this.baseUrl + '/apps/' + apps.id, this.options)
+      .subscribe(
+        (resultado: any) => {
+          this.showAlert('Excluido com sucesso');
+          this.listAll();
+      },
+        erro => {
+          this.showAlert('Falha na exclusão');
+          console.log(erro);
+        }
+      )
+    });
   }
 
+  getProfile(apps: number) {
+    return this.apps[apps];
+  }
+
+  resetForm() {
+    this.form.get('id').setValue(null);
+    this.form.get('name').setValue(null);
+    this.form.get('cpf').setValue(null);
+    this.form.get('rg').setValue(null);
+    this.form.get('birthdate').setValue(null);
+    this.form.get('profile').patchValue(null);
+  }
+
+  async showAlert(mensagem: string) {
+    const alert = await this.alertController.create({
+      header: 'Alerta',
+      subHeader: '',
+      message: mensagem,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+  showPrompt(mensagem: string, action: CallableFunction) {
+    this.alertController.create({
+      header: 'Confirmação',
+      subHeader: '',
+      message: mensagem,
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: (data: any) => {
+            return;
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: (data: any) => {
+            action();
+          }
+        }
+      ]
+    }).then(res => {
+      res.present();
+    });
+  }
 }

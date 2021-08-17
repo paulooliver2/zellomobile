@@ -90,7 +90,6 @@ export class Tab1Page {
       }
     );
   }
-
   update(params:any) {
     this.rest.put(this.baseUrl + '/person/'+ params.id, params, this.options)
     .subscribe(
