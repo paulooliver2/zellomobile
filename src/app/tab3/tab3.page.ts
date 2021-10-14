@@ -1,9 +1,7 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from  '@angular/common/http';
-import { AlertController } from '@ionic/angular';
-
-
+import {Component} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {AlertController} from '@ionic/angular';
 
 
 @Component({
@@ -17,75 +15,80 @@ export class Tab3Page {
   personApps = [];
   persons = [];
   apps = [];
-  baseUrl:string = "http://localhost:8000/api";
+  baseUrl = 'http://localhost:8000/api';
   httpHeaders = new HttpHeaders({
-    'Content-Type' : 'application/json',
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    'Content-Type': 'application/json',
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     'Cache-Control': 'no-cache'
-  });    
+  });
   options = {
     headers: this.httpHeaders
-  };      
+  };
 
   constructor(
-    private formBuilder: FormBuilder, 
+    private formBuilder: FormBuilder,
     private rest: HttpClient,
-    public alertController: AlertController) {{
+    public alertController: AlertController) {
+    {
 
-    this.form = this.formBuilder.group({
-      'person_id': [null, Validators.compose([Validators.required])],
-			'apps_id': [null, Validators.compose([Validators.required])]
-		});
+      this.form = this.formBuilder.group({
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        person_id: [null, Validators.compose([Validators.required])],
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        apps_id: [null, Validators.compose([Validators.required])]
+      });
 
-    this.listAllPerson();
-    this.listAllApps();
+      this.listAllPerson();
+      this.listAllApps();
+    }
   }
-}
 
   save() {
     if (!this.form.valid) {
       this.showAlert('Favor preencher os campos obrigatórios');
       return;
     }
-    let params = this.form.getRawValue();
+    const params = this.form.getRawValue();
     this.create(params);
   }
 
-  create(params:any) {
+  create(params: any) {
     this.rest.post(this.baseUrl + '/person/' + params.person_id + '/apps', params, this.options)
-    .subscribe(
-      resultado => { 
-        this.showAlert('Cadastrada com sucesso');
-        this.listAll(params);
-      },
-      erro => {
-        this.showAlert('Falha no cadastro');
-        console.log(erro);
-      }
-    );
+      .subscribe(
+        resultado => {
+          this.showAlert('Cadastrada com sucesso');
+          this.listAll(params);
+        },
+        erro => {
+          this.showAlert('Falha no cadastro');
+          console.log(erro);
+        }
+      );
   }
 
   listAllPerson() {
     this.rest.get(this.baseUrl + '/person/', this.options)
-    .subscribe(
-      (resultado: any) => { 
-        this.persons = resultado;
-      },
-      erro => {
-        console.log(erro);
-      }
-    );
+      .subscribe(
+        (resultado: any) => {
+          this.persons = resultado;
+        },
+        erro => {
+          console.log(erro);
+        }
+      );
   }
 
   listAllApps() {
     this.rest.get(this.baseUrl + '/apps/', this.options)
-    .subscribe(
-      (resultado: any) => { 
-        this.apps = resultado;
-      },
-      erro => {
-        console.log(erro);
-      }
-    );
+      .subscribe(
+        (resultado: any) => {
+          this.apps = resultado;
+        },
+        erro => {
+          console.log(erro);
+        }
+      );
   }
 
   listAll(personapp: any) {
@@ -94,30 +97,29 @@ export class Tab3Page {
     }
 
     this.rest.get(this.baseUrl + '/person/' + personapp.person_id + '/apps', this.options)
-    .subscribe(
-      (resultado: any) => {
-        this.personApps = resultado;
-      },
-      erro => {
-        console.log(erro);
-      }
-    
-    )
+      .subscribe(
+        (resultado: any) => {
+          this.personApps = resultado;
+        },
+        erro => {
+          console.log(erro);
+        }
+      );
   }
 
   delete(personApp: any) {
     this.showPrompt('Deseja excluir?', () => {
       this.rest.delete(this.baseUrl + '/person/' + personApp.person_id + '/apps/' + personApp.id, this.options)
-      .subscribe(
-        (resultado: any) => {
-          this.showAlert('Excluido com sucesso');
-          this.listAll(personApp);
-      },
-        erro => {
-          this.showAlert('Falha na exclusão');
-          console.log(erro);
-        }
-      )
+        .subscribe(
+          (resultado: any) => {
+            this.showAlert('Excluido com sucesso');
+            this.listAll(personApp);
+          },
+          erro => {
+            this.showAlert('Falha na exclusão');
+            console.log(erro);
+          }
+        );
     });
   }
 
@@ -145,6 +147,7 @@ export class Tab3Page {
       buttons: [
         {
           text: 'Cancelar',
+          // eslint-disable-next-line arrow-body-style
           handler: (data: any) => {
             return;
           }

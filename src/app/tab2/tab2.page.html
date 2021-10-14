@@ -13,10 +13,10 @@
     </ion-toolbar>
   </ion-header>
   <ion-card>
-  
+
     <ion-card-content>
-      <form id="formApps" [formGroup]="form" (ngSubmit)="save()">
-        <ion-input type="hidden" formControlName="id"></ion-input>
+      <form (ngSubmit)="save()" [formGroup]="form" id="formApps">
+        <ion-input formControlName="id" type="hidden"></ion-input>
         <ion-item>
           <ion-label position="floating">Nome</ion-label>
           <ion-input formControlName="name"></ion-input>
@@ -25,7 +25,7 @@
           <ion-label position="floating">Bundle</ion-label>
           <ion-input formControlName="bundle_id"></ion-input>
         </ion-item>
-        <ion-button type="submit" size="full" color="primary">Salvar</ion-button>
+        <ion-button color="primary" size="full" type="submit">Salvar</ion-button>
       </form>
       <hr>
       <h2>Lista de apps</h2>
@@ -38,13 +38,13 @@
             {{app.bundle_id}}
           </ion-col>
           <ion-col>
-            <ion-button color="warning" (click)="get(app)">Editar</ion-button>
+            <ion-button (click)="get(app)" color="warning">Editar</ion-button>
           </ion-col>
           <ion-col>
-            <ion-button color="danger" (click)="delete(app)">Excluir</ion-button>
+            <ion-button (click)="delete(app)" color="danger">Excluir</ion-button>
           </ion-col>
         </ion-row>
-        </ion-grid>
+      </ion-grid>
     </ion-card-content>
   </ion-card>
 </ion-content>

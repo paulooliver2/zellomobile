@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from  '@angular/common/http';
-import { AlertController } from '@ionic/angular';
+import {Component} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -12,32 +12,36 @@ export class Tab2Page {
 
   form: FormGroup;
   apps = [];
-  baseUrl:string = "http://localhost:8000/api";
+  baseUrl = 'http://localhost:8000/api';
   httpHeaders = new HttpHeaders({
-    'Content-Type' : 'application/json',
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    'Content-Type': 'application/json',
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     'Cache-Control': 'no-cache'
-  });    
+  });
   options = {
     headers: this.httpHeaders
-  };      
+  };
 
   constructor(
-    private formBuilder: FormBuilder, 
+    private formBuilder: FormBuilder,
     private rest: HttpClient,
-    public alertController: AlertController) {{
+    public alertController: AlertController) {
+    {
 
-    this.form = this.formBuilder.group({
-      'id': [null],
-			'name': [null, Validators.compose([Validators.required])],
-			'bundle_id': [null, Validators.compose([Validators.required, Validators.maxLength(100)])]
-		});
-    this.listAll();
+      this.form = this.formBuilder.group({
+        id: [null],
+        name: [null, Validators.compose([Validators.required])],
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        bundle_id: [null, Validators.compose([Validators.required, Validators.maxLength(100)])]
+      });
+      this.listAll();
+    }
   }
-}
 
   save() {
-    let params = this.form.getRawValue();
-    
+    const params = this.form.getRawValue();
+
     if (!!params.id) {
       return this.update(params);
     }
@@ -45,75 +49,75 @@ export class Tab2Page {
     this.create(params);
   }
 
-  create(params:any) {
+  create(params: any) {
     this.rest.post(this.baseUrl + '/apps/', params, this.options)
-    .subscribe(
-      resultado => { 
-        this.showAlert('Cadastrada com sucesso');
-        this.listAll();
-        this.resetForm();
-      },
-      erro => {
-        this.showAlert('Falha no cadastro');
-        console.log(erro);
-      }
-    );
+      .subscribe(
+        resultado => {
+          this.showAlert('Cadastrada com sucesso');
+          this.listAll();
+          this.resetForm();
+        },
+        erro => {
+          this.showAlert('Falha no cadastro');
+          console.log(erro);
+        }
+      );
   }
 
-  update(params:any) {
-    this.rest.put(this.baseUrl + '/apps/'+ params.id, params, this.options)
-    .subscribe(
-      resultado => { 
-        this.showAlert('Alterada com sucesso');
-        this.listAll();
-        this.resetForm();
-    },
-      erro => {
-        this.showAlert('Falha na alteração');
-        console.log(erro);
-      }
-    );
+  update(params: any) {
+    this.rest.put(this.baseUrl + '/apps/' + params.id, params, this.options)
+      .subscribe(
+        resultado => {
+          this.showAlert('Alterada com sucesso');
+          this.listAll();
+          this.resetForm();
+        },
+        erro => {
+          this.showAlert('Falha na alteração');
+          console.log(erro);
+        }
+      );
   }
 
   listAll() {
     this.rest.get(this.baseUrl + '/apps/', this.options)
-    .subscribe(
-      (resultado: any) => { 
-        this.apps = resultado;
-      },
-      erro => {
-        console.log(erro);
-      }
-    );
+      .subscribe(
+        (resultado: any) => {
+          this.apps = resultado;
+        },
+        erro => {
+          console.log(erro);
+        }
+      );
   }
 
   get(app: any) {
     this.rest.get(this.baseUrl + '/apps/' + app.id, this.options)
-    .subscribe(
-      (resultado: any) => {
-        this.form.get('id').setValue(resultado.id);
-        this.form.get('name').setValue(resultado.name);
-        this.form.get('bundle_id').setValue(resultado.bundle_id);
-      },
-      erro => {
-        console.log(erro);
-      }
-    
-    )
+      .subscribe(
+        (resultado: any) => {
+          this.form.get('id').setValue(resultado.id);
+          this.form.get('name').setValue(resultado.name);
+          this.form.get('bundle_id').setValue(resultado.bundle_id);
+        },
+        erro => {
+          console.log(erro);
+        }
+      );
   }
+
   delete(apps: any) {
     this.showPrompt('Deseja excluir?', () => {
       this.rest.delete(this.baseUrl + '/apps/' + apps.id, this.options)
-      .subscribe(
-        (resultado: any) => {
-          this.showAlert('Excluido com sucesso');
-          this.listAll();
-      },
-        erro => {
-          this.showAlert('Falha na exclusão');
-          console.log(erro);
-        }
-      )
+        .subscribe(
+          (resultado: any) => {
+            this.showAlert('Excluido com sucesso');
+            this.listAll();
+          },
+          erro => {
+            this.showAlert('Falha na exclusão');
+            console.log(erro);
+          }
+        );
     });
   }
 
@@ -149,6 +153,7 @@ export class Tab2Page {
       buttons: [
         {
           text: 'Cancelar',
+          // eslint-disable-next-line arrow-body-style
           handler: (data: any) => {
             return;
           }

@@ -13,10 +13,10 @@
     </ion-toolbar>
   </ion-header>
   <ion-card>
-  
+
     <ion-card-content>
-      <form id="formPerson" [formGroup]="form" (ngSubmit)="save()">
-        <ion-input type="hidden" formControlName="id"></ion-input>
+      <form (ngSubmit)="save()" [formGroup]="form" id="formPerson">
+        <ion-input formControlName="id" type="hidden"></ion-input>
         <ion-item>
           <ion-label position="floating">Nome</ion-label>
           <ion-input formControlName="name"></ion-input>
@@ -31,11 +31,11 @@
         </ion-item>
         <ion-item>
           <ion-label>Data de Nascimento</ion-label>
-          <ion-datetime 
-          formControlName="birthdate"
-          displayFormat="DD-MM-YYYY" placeholder="Select Date"></ion-datetime>
+          <ion-datetime
+            displayFormat="DD-MM-YYYY"
+            formControlName="birthdate" placeholder="Select Date"></ion-datetime>
         </ion-item>
-        <ion-list>        
+        <ion-list>
           <ion-item>
             <ion-label>Perfil</ion-label>
             <ion-select [compareWith]="compareWith" formControlName="profile">
@@ -45,7 +45,7 @@
             </ion-select>
           </ion-item>
         </ion-list>
-        <ion-button type="submit" expand="full" color="primary">Salvar</ion-button>
+        <ion-button color="primary" expand="full" type="submit">Salvar</ion-button>
       </form>
       <hr>
       <h2>Lista de Pessoas</h2>
@@ -53,28 +53,28 @@
         <ion-row *ngFor="let person of persons">
           <ion-col>
             {{person.name}}
-          </ion-col>      
+          </ion-col>
           <ion-col>
             {{person.cpf}}
-          </ion-col>   
+          </ion-col>
           <ion-col>
             {{person.rg}}
-          </ion-col>     
+          </ion-col>
           <ion-col>
             {{person.birthdate}}
-          </ion-col>  
+          </ion-col>
           <ion-col>
             {{this.getProfile(person.profile)}}
           </ion-col>
           <ion-col>
-            <ion-button color="warning" (click)="get(person)">Editar</ion-button>
+            <ion-button (click)="get(person)" color="warning">Editar</ion-button>
           </ion-col>
           <ion-col>
-            <ion-button color="danger" (click)="delete(person)">Excluir</ion-button>
+            <ion-button (click)="delete(person)" color="danger">Excluir</ion-button>
           </ion-col>
         </ion-row>
-        </ion-grid>
+      </ion-grid>
     </ion-card-content>
   </ion-card>
-  
+
 </ion-content>
